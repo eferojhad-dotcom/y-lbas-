@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Sana Bir Mektubum Var</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #1a0f14, #050205);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Georgia', serif;
+  overflow: hidden;
+}
+
+/* ZARF */
+.envelope {
+  width: 340px;
+  position: relative;
+  cursor: pointer;
+}
+
+.base {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(145deg, #7a1f2b, #4b0f18);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+.flap {
+  position: absolute;
+  width: 100%;
+  height: 220px;
+  top: 0;
+  background: linear-gradient(145deg, #a5283a, #6b1422);
+  clip-path: polygon(0 0, 100% 0, 50% 55%);
+  transform-origin: top;
+  transition: transform 1.6s cubic-bezier(.4,0,.2,1);
+}
+
+/* MEKTUP */
+.letter {
+  position: absolute;
+  width: 92%;
+  left: 4%;
+  top: 20px;
+  background: #fdf8f5;
+  border-radius: 10px;
+  padding: 24px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1.6s cubic-bezier(.4,0,.2,1);
+
+  max-height: 60vh;          /* 🔥 KRİTİK */
+  overflow-y: auto;          /* 🔥 KRİTİK */
+}
+
+/* AÇILMA */
+.envelope.open .flap {
+  transform: rotateX(-170deg);
+}
+
+.envelope.open .letter {
+  opacity: 1;
+  transform: translateY(-90px);
+}
+
+/* METİN */
+#text {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: #3a0d14;
+}
+
+/* GÜL */
+.rose {
+  text-align: center;
+  font-size: 30px;
+  margin-top: 16px;
+  animation: pulse 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* PARÇACIK */
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255,200,200,0.85);
+  border-radius: 50%;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(0); opacity: 0; }
+  to { transform: translateY(-120vh); opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="envelope" onclick="openEnvelope()">
+  <div class="base"></div>
+  <div class="flap"></div>
+
+  <div class="letter">
+    <div id="text"></div>
+    <div class="rose">🌹</div>
+  </div>
+</div>
+
+<script>
+const message =
+`Canım sevgilim,
+
+Bir yıl daha biterken
+hayatıma baktığımda
+en güzel detayın
+sen olduğunu fark ediyorum.
+
+Bazen hiçbir şey söylemeden
+sadece yan yana durmak bile
+bana yetiyor.
+Çünkü sen varken
+dünya daha sakin,
+zaman daha yavaş.
+
+Yeni yıldan büyük mucizeler
+istemiyorum.
+Sadece seninle geçen
+küçük anlar istiyorum;
+birlikte gülmek,
+birlikte susmak,
+aynı hayallere uyanmak.
+
+İyi ki varsın.
+İyi ki hayatımdasın.
+Bu yıl da,
+sonraki yıllar da
+hep “biz” olsun 🤍
+sevgilin Rojhad`;
+
+let index = 0;
+let opened = false;
+
+function openEnvelope() {
+  if (opened) return;
+  opened = true;
+
+  document.querySelector('.envelope').classList.add('open');
+  typeText();
+  createParticles();
+}
+
+function typeText() {
+  if (index < message.length) {
+    const char = message[index];
+    document.getElementById("text").innerHTML +=
+      char === "\n" ? "<br>" : char;
+    index++;
+    setTimeout(typeText, 45);
+  }
+}
+
+function createParticles() {
+  for (let i = 0; i < 45; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * window.innerWidth + 'px';
+    p.style.bottom = '-10px';
+    p.style.animationDelay = Math.random() * 5 + 's';
+    document.body.appendChild(p);
+  }
+}
+</script>
+git add index.html
+git commit -m "index.html eklendi"
+git push
+
+</body>
+</html>
+
